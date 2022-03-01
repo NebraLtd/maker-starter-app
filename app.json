@@ -1,6 +1,6 @@
 {
-  "name": "MakerApp",
-  "displayName": "Maker App",
+  "name": "NebraHeliumApp",
+  "displayName": "The Nebra Helium App",
   "expo": {
     "scheme": "makerappscheme"
   }
