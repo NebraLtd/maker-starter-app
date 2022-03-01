@@ -2,6 +2,7 @@ import HotspotIcon from './icon.svg'
 import { MakerHotspot } from '../hotspotMakerTypes'
 import ANTENNAS from './antennas'
 
+// TODO: change text
 const ExampleHotspotBLE = {
   name: 'Example Hotspot BLE',
   icon: HotspotIcon,
@@ -39,6 +40,7 @@ const ExampleHotspotBLE = {
   },
 } as MakerHotspot
 
+// TODO: change text
 const ExampleHotspotQR = {
   name: 'Example Hotspot QR',
   icon: HotspotIcon,
