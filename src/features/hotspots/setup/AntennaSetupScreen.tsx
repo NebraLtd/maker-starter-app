@@ -16,6 +16,7 @@ import { MakerAntenna } from '../../../makers/antennaMakerTypes'
 import nebra from '../../../makers/nebra'
 import { HotspotMakerModels } from '../../../makers'
 import { RootNavigationProp } from '../../../navigation/main/tabTypes'
+import { isEUCountry, isUSCountry } from '../../../utils/countries'
 
 type Route = RouteProp<HotspotSetupStackParamList, 'AntennaSetupScreen'>
 
@@ -29,13 +30,17 @@ const AntennaSetupScreen = () => {
 
   const defaultAntenna = useMemo(() => {
     const country = getCountry()
-    const isUS = country === 'US'
     const makerAntenna = HotspotMakerModels[params.hotspotType]?.antenna
-    const ant =
-      isUS && makerAntenna?.us ? makerAntenna.us : makerAntenna?.default
 
-    if (!ant)
-      return isUS ? nebra.antennas.NEBRA_US_3 : nebra.antennas.NEBRA_EU_3
+    let makerAntennaDefault = makerAntenna?.default
+    if (isUSCountry(country)) makerAntennaDefault = makerAntenna?.us
+    else if (isEUCountry(country)) makerAntennaDefault = makerAntenna?.eu
+
+    let antennaDefault = nebra.antennas.NEBRA_US_3
+    if (isUSCountry(country)) antennaDefault = nebra.antennas.NEBRA_US_3
+    else if (isEUCountry(country)) antennaDefault = nebra.antennas.NEBRA_EU_3
+
+    const ant = makerAntennaDefault || antennaDefault
 
     return ant
   }, [params.hotspotType])
