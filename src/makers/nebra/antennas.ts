@@ -26,7 +26,7 @@ const NEBRA_EU_5 = {
 } as MakerAntenna
 
 const NEBRA_EU_8 = {
-  name: '(EU 3dBi) Nebra Glass Fiber LoRa Antenna',
+  name: '(EU 8dBi) Nebra Glass Fiber LoRa Antenna',
   gain: 8,
 } as MakerAntenna
 
