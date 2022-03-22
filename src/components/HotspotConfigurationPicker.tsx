@@ -181,7 +181,7 @@ const HotspotConfigurationPicker = ({
               returnKeyType="done"
               onChangeText={onChangeGain}
               onEndEditing={onDoneEditingGain}
-              editable={selectedAntenna?.name === 'Custom Antenna'}
+              editable={selectedAntenna?.name === 'Nebra Stock Antenna'}
             />
             <Text marginLeft="xxs">{t('antennas.onboarding.dbi')}</Text>
           </Box>
