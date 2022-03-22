@@ -15,7 +15,7 @@ export type MakerHotspot = {
   translations: MakerHotspotTranslations
   icon: React.FC<SvgProps>
   name: string
-  antenna?: { us?: MakerAntenna; default: MakerAntenna }
+  antenna?: { us?: MakerAntenna; eu?: MakerAntenna; default: MakerAntenna }
   onboardType: OnboardType
   onboardUrl?: string
 }

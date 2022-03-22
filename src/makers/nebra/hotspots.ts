@@ -13,8 +13,7 @@ const IN1BLE = {
       internal: [
         {
           title: 'Pair with hotspot',
-          body:
-            'Press and hold the button on the side of your hotspot for 3 seconds to make it discoverable.',
+          body: 'Press and hold the button on the side of your hotspot for 3 seconds to make it discoverable.',
           button: 'Continue',
         },
       ],
@@ -25,6 +24,7 @@ const IN1BLE = {
   },
   antenna: {
     us: ANTENNAS.NEBRA_US_3,
+    eu: ANTENNAS.NEBRA_EU_3,
     default: ANTENNAS.NEBRA_US_3,
   },
 } as MakerHotspot
@@ -38,8 +38,7 @@ const OUT1BLE = {
       internal: [
         {
           title: 'Pair with hotspot',
-          body:
-            'Unplug your device and plug back in. It will be discoverable for 5min after powering back on.',
+          body: 'Unplug your device and plug back in. It will be discoverable for 5min after powering back on.',
           button: 'Continue',
         },
       ],
@@ -50,6 +49,7 @@ const OUT1BLE = {
   },
   antenna: {
     us: ANTENNAS.NEBRA_US_3,
+    eu: ANTENNAS.NEBRA_EU_3,
     default: ANTENNAS.NEBRA_US_3,
   },
 } as MakerHotspot
@@ -63,8 +63,7 @@ const HHRK4IN1BLE = {
       internal: [
         {
           title: 'Pair with hotspot',
-          body:
-            'Press and hold the button on the side of your hotspot for 3 seconds to make it discoverable.',
+          body: 'Press and hold the button on the side of your hotspot for 3 seconds to make it discoverable.',
           button: 'Continue',
         },
       ],
@@ -75,6 +74,7 @@ const HHRK4IN1BLE = {
   },
   antenna: {
     us: ANTENNAS.NEBRA_US_3,
+    eu: ANTENNAS.NEBRA_EU_3,
     default: ANTENNAS.NEBRA_US_3,
   },
 } as MakerHotspot
