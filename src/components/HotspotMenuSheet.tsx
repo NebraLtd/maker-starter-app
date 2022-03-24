@@ -47,14 +47,12 @@ const HotspotMenuSheet = ({ item }: Props) => {
         value: 'transfer',
         Icon: TransferIco,
         action: () => navigation.push('TransferHotspot', { hotspot: item }),
-        disabled: true,
       },
       {
         label: t('hotspot_details.options.assert_location'),
         value: 'assertLocation',
         Icon: AssertLocationIco,
         action: () => navigation.push('HotspotAssert', { hotspot: item }),
-        disabled: true,
       },
       {
         label: t('hotspot_details.options.viewExplorer'),
