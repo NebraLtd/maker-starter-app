@@ -43,16 +43,6 @@ const HotspotMenuSheet = ({ item }: Props) => {
   const actionSheetData = useMemo(() => {
     return [
       {
-        label: t('hotspot_details.options.transfer'),
-        value: 'transfer',
-        Icon: TransferIco,
-        action: () => {
-          navigation.push('TransferHotspot', {
-            hotspotAddress: item?.address,
-          })
-        },
-      },
-      {
         label: t('hotspot_details.options.assert_location'),
         value: 'assertLocation',
         Icon: AssertLocationIco,
@@ -62,6 +52,16 @@ const HotspotMenuSheet = ({ item }: Props) => {
             params: {
               hotspotAddress: item?.address,
             },
+          })
+        },
+      },
+      {
+        label: t('hotspot_details.options.transfer'),
+        value: 'transfer',
+        Icon: TransferIco,
+        action: () => {
+          navigation.push('TransferHotspot', {
+            hotspotAddress: item?.address,
           })
         },
       },
