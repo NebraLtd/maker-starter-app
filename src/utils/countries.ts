@@ -29,10 +29,14 @@ const EUCountries = {
   GB: 'United Kingdom',
 }
 
-export const isUSCountry = (country: string) => {
+export const isUS = (country: string) => {
   return country === 'US'
 }
 
-export const isEUCountry = (country: string) => {
+export const isEU = (country: string) => {
   return country in EUCountries
+}
+
+export const isCN = (country: string) => {
+  return country === 'CN'
 }

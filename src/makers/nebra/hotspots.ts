@@ -2,7 +2,6 @@ import IN1Icon from './in1.svg'
 import OUT1Icon from './out1.svg'
 import INROCKPIIcon from './inrockpi.svg'
 import { MakerHotspot } from '../hotspotMakerTypes'
-import ANTENNAS from './antennas'
 
 const IN1BLE = {
   name: 'Nebra Indoor Original ',
@@ -22,11 +21,6 @@ const IN1BLE = {
     ja: {},
     ko: {},
     zh: {},
-  },
-  antenna: {
-    us: ANTENNAS.NEBRA_US_3,
-    eu: ANTENNAS.NEBRA_EU_3,
-    default: ANTENNAS.NEBRA_US_3,
   },
 } as MakerHotspot
 
@@ -49,11 +43,6 @@ const OUT1BLE = {
     ko: {},
     zh: {},
   },
-  antenna: {
-    us: ANTENNAS.NEBRA_US_3,
-    eu: ANTENNAS.NEBRA_EU_3,
-    default: ANTENNAS.NEBRA_US_3,
-  },
 } as MakerHotspot
 
 const HHRK4IN1BLE = {
@@ -74,11 +63,6 @@ const HHRK4IN1BLE = {
     ja: {},
     ko: {},
     zh: {},
-  },
-  antenna: {
-    us: ANTENNAS.NEBRA_US_3,
-    eu: ANTENNAS.NEBRA_EU_3,
-    default: ANTENNAS.NEBRA_US_3,
   },
 } as MakerHotspot
 
