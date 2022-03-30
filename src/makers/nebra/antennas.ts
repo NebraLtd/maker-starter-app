@@ -30,6 +30,11 @@ const NEBRA_EU_8 = {
   gain: 8,
 } as MakerAntenna
 
+const NEBRA_STOCK = {
+  name: 'Nebra Stock Antenna',
+  gain: 3,
+} as MakerAntenna
+
 export default {
   NEBRA_US_3,
   NEBRA_US_5,
@@ -37,4 +42,5 @@ export default {
   NEBRA_EU_3,
   NEBRA_EU_5,
   NEBRA_EU_8,
+  NEBRA_STOCK,
 }
