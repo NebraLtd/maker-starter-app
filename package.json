@@ -83,7 +83,7 @@
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
     "protobufjs": "^6.10.2",
-    "qs": "^6.9.6",
+    "qs": "^6.10.3",
     "query-string": "^7.0.0",
     "react": "17.0.1",
     "react-async-hook": "^3.6.2",
