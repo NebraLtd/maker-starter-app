@@ -4,10 +4,16 @@
 
 ### App Setup
 
-1. First add your environment variables. See the [installing](#Installing) section below for more detail on how to do so.
+1. First add your environment variables. See the [installing](#Installing) section below for more detail on how to do so. For development environment you can use your own generated keys but for release use nebra account keys.
    1. You will need a [Mapbox](https://docs.mapbox.com/help/getting-started/access-tokens/) API key to show the map for Hotspot onboarding.
    2. You will need a [Google](https://developers.google.com/maps/documentation/javascript/get-api-key) API key for address and location search.
 2. Rename your application using [React Native Rename](https://github.com/junedomingo/react-native-rename). You will want to pass in the custom bundle identifier for [Android](https://developer.android.com/studio/build/configure-app-module#set_the_application_id) and also change it manually for [iOS](https://developer.apple.com/documentation/appstoreconnectapi/bundle_ids).
+   This step is only required if you are picking ios and android specific changes from upstream. As upstream app is named "MakerApp" while we name it simply "Nebra". Follow below procedure to do so.
+   1. checkout upstream main branch
+   2. create a new branch from it "upstream_main_app_renamed".
+   3. use [React Native Rename](https://github.com/junedomingo/react-native-rename) utility to change name from "MakerApp" to "Nebra".
+   4. temporarily commit the changes in this branch.
+   5. use this branch to make you diff against nebra main and pick any changes if required.
 3. Update your theme colors in [theme.ts](src/theme/theme.ts). The theme controls the look of the application.
 4. Add your Hotspot and Antenna data in the [makers](src/makers) folder. See the [Makers README](src/makers/README.md) for more detail.
 5. You will need to update your App Scheme for any deep linking. There are guides for both [iOS](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app) and [Android](https://developer.android.com/training/app-links/deep-linking).
@@ -64,6 +70,179 @@ If you have already installed Xcode on your system, make sure it is up to date.
 #### Command Line Tools
 
 You will also need to install the Xcode Command Line Tools. Open Xcode, then choose "Preferences..." from the Xcode menu. Go to the Locations panel and install the tools by selecting the most recent version in the Command Line Tools dropdown.
+
+# <<<<<<< Updated upstream
+
+#### Dependencies
+
+You need to install [cocoapods](https://cocoapods.org/) for iOS. CocoaPods manages library dependencies for your Xcode projects.
+
+```
+sudo gem install cocoapods
+```
+
+Then install the pods for iOS
+
+```
+yarn pod-install
+```
+
+If the app is not working you may want to clean your workspace and then follow the running the app section below
+
+```
+npx expo install --check # this will try to fix incompatible package version in package.json. Safe to accept them.
+yarn clean-install
+yarn clean-start
+```
+
+#### Running The App
+
+The fastest way to run the app is on the iOS simulator. Just type:
+
+```
+yarn ios
+```
+
+You can also open the `Nebra.xcworkspace` file in the `/ios` folder using xcode and run the app on your device or any other simulator.
+
+To run the app on a specific device, type:
+
+```
+yarn ios --device "Device Name"
+```
+
+To build a release version of the app:
+
+```
+yarn ios --configuration=release
+```
+
+#### Building and distributing to App store with Xcode
+
+To distribute your app on the App Store with Xcode, a few steps are required.
+App signing is done automatically.
+
+##### Uploading App to App Store for the first time
+
+Before you can upload a build of your app to App Store Connect, you must first create an app record in your [App Store Connect account](https://appstoreconnect.apple.com/).
+
+1. From My Apps, click the Add button (+) in the top-left corner.
+2. The My Apps page is blank until you create your first app record.
+3. From the pop-up menu, select New App.
+4. In the New App dialog, select one or more platform(s) and enter the app information. The bundle ID should match that of the app you want to deploy.
+5. Under User Access, choose Limited Access or Full Access. If you choose Limited Access, select the users that you would like to be able to access this app.
+6. Click Create, and look for messages that indicate missing information.
+
+##### Updating App Version and Build on Xcode
+
+1. Under "Target" on your right hand side, click on the app.
+2. Go to "General"
+3. Under "Identity", update the version and build to the required value
+
+##### Building
+
+To build the app for distribution:
+
+1. Refresh dependencies: `yarn install && cd ios && pod install`
+2. In Xcode first go to Product
+3. Go to Scheme
+4. Go to Edit scheme
+5. Change the Build configuration to Release
+
+##### Archiving
+
+To release the app, you first need to create an archive.
+
+1. In Xcode go to Product
+2. Click on Archive
+3. After the archive builds successfully, a new window will be opened with a list of all archives. The topmost one is what you just built.
+
+##### Distribution
+
+1. With the archive selected, click on the Distribute App button on the right.
+2. This will launch a wizard for selecting distribution method.
+3. Since you want to distribute the app to App Store, select "App Store Connect" and click on next.
+4. Within the "Select a destination" wizard, "upload" and click on next.
+5. In the next sheet, choose a signing option, then click Next. More on Distribution signing options can be found [here](https://help.apple.com/xcode/mac/current/#/devff5ececf8)
+6. If you are missing a required distribution certificate, follow the instructions in the next sheet to create it.
+7. Review the signing certificate, provisioning profile, and entitlements.
+8. Click Upload.
+
+##### TestFlight
+
+The TestFlight app allows testers to install and beta test your app on iOS, tvOS, and watchOS devices. Testers must receive an invite directly from you before they can begin testing with TestFlight. Once testers accept your invitation, they can install, test, send feedback, and get updates of your beta app.
+
+TestFlight can be used on App Store Connect after your build has been uploaded.
+
+##### App Store
+
+1. Choose your build.
+2. Set pricing and availability
+3. Submit your app for review. Before you submit an app, enter all the [required metadata](https://help.apple.com/itunes-connect/developer/#/devfc3066644) and choose if you want to release your app manually or automatically.
+
+#### Possible Issues
+
+##### 1. There are no accounts registered with Xcode.
+
+Error message "There are no accounts registered with Xcode. Add your developer account to Xcode" gets returned when no developer account has been set up in Xcode.
+
+#####[Solution]
+
+1. Open Xcode.
+2. Go to Preferences
+3. Go to Accounts tab then add your account with the + sign.
+
+##### 2. No profiles for 'com.maker.makerapp' were found.
+
+Error message "No profiles for 'com.maker.makerapp' were found: Xcode couldn't find any iOS App Development provisioning profiles matching 'com.maker.makerapp'." could be returned when no provisioning profile have been set for the bundle in xcode.
+
+#####[Solution]
+
+1. Open Xcode.
+2. Go to Signing and Capabilities
+3. Under Team, select your developer account/ Apple ID.
+
+#### 3. Could not get the simulator list from Xcode
+
+This error message gets returned when no simulator or device is detected.
+
+#####[Solution]
+Ensure that you have an ios simulator running, or you have an ios device plugged in.
+Use the command below to check for available devices or simulators.
+`xcrun simctl list --json devices`
+
+#### 4. Failed to install the app on the device because we couldn't execute the "ios-deploy" command
+
+This may be as a result of attempting to run the app on an IOS physical device such as iPhone without having "ios-deploy" installed.
+
+#####[Solution]
+Install ios-deploy
+`npm install -g ios-deploy`
+
+#### 5. Unable to launch com.maker.makerapp because it has an invalid code signature, inadequate entitlements or its profile has not been explicitly trusted by the user.
+
+You may need to trust the app on your IOS device.
+
+#####[Soultion]
+
+1. On your IOS device, go to Settings
+2. Go to General
+3. Go to Device Management
+4. You will see a profile for the developer. Tap the name of the developer profile to establish trust.
+
+### 6. Node package ios version mismatch.
+
+Write targetted version of OS in both these locations. This has nothing to do with Device version. As of writing Ios 13 is the lastest version and it is supported Iphone 6 and above.
+
+ios/Podfile : eg platform :ios, '13.0'
+
+and
+
+ios/MakerApp.xcodeproj/project.pbxproj (all configruations): eg. IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+
+### Running Project on Android
+
+> > > > > > > Stashed changes
 
 #### Java Development Kit
 
