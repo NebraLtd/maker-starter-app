@@ -33,7 +33,7 @@ const OUT1BLE = {
       internal: [
         {
           title: 'Pair with hotspot',
-          body: 'Unplug your device and plug back in. It will be discoverable for 5min after powering back on.',
+          body: "1. Make sure Phone's Bluetooth is turned on.\n\n2. Unplug your device and plug back in. It will be discoverable for 5min after powering back on.",
           button: 'Continue',
         },
       ],
