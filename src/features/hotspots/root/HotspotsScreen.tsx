@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useAnalytics } from '@segment/analytics-react-native'
 import { Hotspot } from '@helium/http'
 import { Asset, useOnboarding } from '@helium/react-native-sdk'
+import Config from 'react-native-config'
 import Box from '../../../components/Box'
 import useMount from '../../../utils/useMount'
 import { fetchHotspotsData } from '../../../store/hotspots/hotspotsSlice'
@@ -43,7 +44,7 @@ const HotspotsScreen = () => {
 
     const nextHotspots = await getHotspots({
       heliumAddress,
-      // makerName: Config.MAKER_NAME,
+      makerName: Config.MAKER_NAME,
     })
 
     if (!nextHotspots) return
