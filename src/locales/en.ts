@@ -250,6 +250,7 @@ export default {
       gain: '{{gain}} dBi',
       gain_label: 'TX / RX Gain:',
       next: 'Register Hotspot',
+      fee_next: 'Pay & Register',
       assert: 'Assert Location',
       no_funds: 'There is insufficient funds in your account balance',
       subtitle_fee:
