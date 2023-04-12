@@ -42,7 +42,6 @@ import AppLinkProvider from './providers/AppLinkProvider'
 import { navigationRef } from './navigation/navigator'
 import useMount from './utils/useMount'
 import usePrevious from './utils/usePrevious'
-import { fetchHotspotsData } from './store/hotspots/hotspotsSlice'
 import { fetchInitialData } from './store/helium/heliumDataSlice'
 import { getMakerName } from './utils/stakingClient'
 import { getEvent, Scope, Action } from './utils/analytics/utils'
@@ -220,8 +219,7 @@ const App = () => {
     ) {
       const fiveMinutesAgo = Date.now() - 300000
       if (lastIdle && fiveMinutesAgo > lastIdle) {
-        dispatch(fetchInitialData())
-        dispatch(fetchHotspotsData())
+        // do periodic state updates here
       }
     }
   }, [appState, dispatch, prevAppState, lastIdle, isLocked])
