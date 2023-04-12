@@ -437,8 +437,8 @@ export default {
     },
   },
   transferHotspot: {
-    enterHotspot: 'Enter Hotspot Address',
-    enterOwner: 'Enter New Owner Address',
+    enterHotspot: 'Enter Hotspot Address Here',
+    enterOwner: 'Enter New Owner Address Here',
     submit: 'Sign with Helium App',
     submitComplete: 'Transfer Successfully Submitted!\n Pending Txn Hash:',
     title: 'Transfer Hotspot',
