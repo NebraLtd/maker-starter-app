@@ -9,6 +9,8 @@ import HotspotsEmpty from './HotspotsEmpty'
 import Hotspots from './Hotspots'
 import { getAddress } from '../../../utils/secureAccount'
 import { RootNavigationProp } from '../../../navigation/main/tabTypes'
+import { ActivityIndicator } from 'react-native'
+import { useColors } from '../../../theme/themeHooks'
 
 const getHotspotAddress = (item: Asset | Hotspot): string => {
   const asset = item as Asset
@@ -22,7 +24,9 @@ const getHotspotAddress = (item: Asset | Hotspot): string => {
 
 const HotspotsScreen = () => {
   const [hotspots, setHotspots] = useState<{ address: string }[]>([])
+  const [hotstpotFetched, setHotspotFetched] = useState<boolean>(false)
   const nav = useNavigation<RootNavigationProp>()
+  const { primaryText } = useColors()
 
   const { getHotspots } = useOnboarding()
 
@@ -37,6 +41,7 @@ const HotspotsScreen = () => {
       heliumAddress,
       // makerName: Config.MAKER_NAME,
     })
+    setHotspotFetched(true)
 
     if (!nextHotspots) return
 
@@ -70,12 +75,14 @@ const HotspotsScreen = () => {
   }, [address, identified, identify])
 
   return (
-    <Box backgroundColor="primaryBackground" flex={1}>
-      {hotspots.length === 0 ? (
+    <Box backgroundColor="primaryBackground" flex={1} justifyContent="center">
+      { hotstpotFetched ? 
+      ((hotspots.length === 0) ? (
         <HotspotsEmpty />
       ) : (
         <Hotspots hotspots={hotspots} />
-      )}
+      )) : 
+      <ActivityIndicator size="small" color={primaryText} />}
     </Box>
   )
 }
