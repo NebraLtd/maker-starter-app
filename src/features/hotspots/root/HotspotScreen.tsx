@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { HotspotMeta, useOnboarding } from '@helium/react-native-sdk'
 import MapboxGL from '@react-native-mapbox-gl/maps'
 import Config from 'react-native-config'
-import { Linking } from 'react-native'
+import { ActivityIndicator, Linking } from 'react-native'
 import { getHotpotTypes, HotspotStackParamList } from './hotspotTypes'
 import Text from '../../../components/Text'
 import SafeAreaBox from '../../../components/SafeAreaBox'
@@ -135,45 +135,50 @@ const HotspotScreen = () => {
           {t('hotspots.notOnboarded')}
         </Text>
       )}
-      {details?.lat && details.lng && (
-        <Box
-          height={200}
-          width="100%"
-          borderRadius="xl"
-          overflow="hidden"
-          marginTop="xxl"
-        >
-          <MapboxGL.MapView
-            styleURL={Config.MAPBOX_STYLE_URL}
-            style={{ height: 200, width: '100%' }}
-          >
-            <MapboxGL.Camera
-              defaultSettings={{
-                centerCoordinate: [details.lng, details.lat],
-                zoomLevel: 9,
-              }}
-            />
-          </MapboxGL.MapView>
-          <Box
-            position="absolute"
-            top={0}
-            bottom={0}
-            left={0}
-            right={0}
-            alignItems="center"
-            justifyContent="center"
-            pointerEvents="none"
-          >
+
+      <Box
+        height={210}
+        width="100%"
+        borderRadius="xl"
+        overflow="hidden"
+        marginTop="s"
+        marginBottom="xxs"
+      >
+        {details?.lat && details.lng && (
+          <Box height={200} width="100%" borderRadius="xl" overflow="hidden">
+            <MapboxGL.MapView
+              styleURL={Config.MAPBOX_STYLE_URL}
+              style={{ height: 200, width: '100%' }}
+            >
+              <MapboxGL.Camera
+                defaultSettings={{
+                  centerCoordinate: [details.lng, details.lat],
+                  zoomLevel: 9,
+                }}
+              />
+            </MapboxGL.MapView>
             <Box
-              height={16}
-              borderRadius="round"
-              width={16}
-              backgroundColor="peacockGreen"
+              position="absolute"
+              top={0}
+              bottom={0}
+              left={0}
+              right={0}
+              alignItems="center"
+              justifyContent="center"
               pointerEvents="none"
-            />
+            >
+              <Box
+                height={16}
+                borderRadius="round"
+                width={16}
+                backgroundColor="peacockGreen"
+                pointerEvents="none"
+              />
+            </Box>
           </Box>
-        </Box>
-      )}
+        )}
+        {!details && <ActivityIndicator size="small" color="white" />}
+      </Box>
 
       <Button
         onPress={assertHotspot}
