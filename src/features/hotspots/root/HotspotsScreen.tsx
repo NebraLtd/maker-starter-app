@@ -5,6 +5,8 @@ import { Hotspot } from '@helium/http'
 import { Asset, useOnboarding } from '@helium/react-native-sdk'
 import Box from '../../../components/Box'
 import useMount from '../../../utils/useMount'
+import { fetchHotspotsData } from '../../../store/hotspots/hotspotsSlice'
+import { useAppDispatch } from '../../../store/store'
 import HotspotsEmpty from './HotspotsEmpty'
 import Hotspots from './Hotspots'
 import { getAddress } from '../../../utils/secureAccount'
@@ -29,6 +31,12 @@ const HotspotsScreen = () => {
   const { primaryText } = useColors()
 
   const { getHotspots } = useOnboarding()
+
+  const dispatch = useAppDispatch()
+
+  useMount(() => {
+    dispatch(fetchHotspotsData())
+  })
 
   const fetch = useCallback(async () => {
     const heliumAddress = await getAddress()

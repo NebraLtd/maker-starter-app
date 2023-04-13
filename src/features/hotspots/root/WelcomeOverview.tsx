@@ -11,6 +11,11 @@ import Text from '../../../components/Text'
 import Button from '../../../components/Button'
 import { RootState } from '../../../store/rootReducer'
 import animateTransition from '../../../utils/animateTransition'
+import { useAppDispatch } from '../../../store/store'
+import useMount from '../../../utils/useMount'
+import hotspotsSlice, {
+  fetchHotspotsData,
+} from '../../../store/hotspots/hotspotsSlice'
 import TouchableOpacityBox from '../../../components/TouchableOpacityBox'
 import { useColors } from '../../../theme/themeHooks'
 import { RootNavigationProp } from '../../../navigation/main/tabTypes'
@@ -51,7 +56,11 @@ const WelcomeOverview = () => {
     (state: RootState) => state.hotspots.hotspots.data,
     isEqual,
   )
+  const dispatch = useAppDispatch()
 
+  useMount(() => {
+    dispatch(fetchHotspotsData())
+  })
   const visibleHotspots = useMemo(() => {
     return hotspots
   }, [hotspots])
@@ -76,6 +85,8 @@ const WelcomeOverview = () => {
       hotspotsLoaded: false,
       loadedStatus: false,
     })
+    dispatch(hotspotsSlice.actions.refresh())
+    dispatch(fetchHotspotsData())
   }
 
   useEffect(() => {
