@@ -149,16 +149,12 @@ const HotspotSetupBluetoothSuccess = () => {
         if (!minFirmware) return
         const firmwareDetails = await checkFirmwareCurrent(minFirmware)
         // also check v1.0.0 as min version for solana transition
-        console.log(firmwareDetails)
-        console.log('calling a second time')
         const lightCurrent = versionCompare(
           firmwareDetails.deviceFirmwareVersion,
           'v0.9.9',
           '>=',
         )
-        console.log(lightCurrent)
         const isCurrent = firmwareDetails.current || lightCurrent
-        console.log(isCurrent)
         if (!isCurrent) {
           console.log(isCurrent)
           navigation.navigate('FirmwareUpdateNeededScreen', firmwareDetails)
@@ -166,7 +162,6 @@ const HotspotSetupBluetoothSuccess = () => {
         }
 
         // scan for wifi networks
-        console.log('going to call for wifi.')
         const networks = uniq((await readWifiNetworks(false)) || [])
         const connectedNetworks = uniq((await readWifiNetworks(true)) || [])
         const hotspotAddress = await getOnboardingAddress()
