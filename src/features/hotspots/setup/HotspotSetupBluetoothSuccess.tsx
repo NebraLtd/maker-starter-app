@@ -12,6 +12,7 @@ import {
 import { isString, uniq } from 'lodash'
 import { parseWalletLinkToken } from '@helium/wallet-link'
 import Config from 'react-native-config'
+import { compare as versionCompare } from 'compare-versions'
 import Box from '../../../components/Box'
 import HotspotPairingList from '../../../components/HotspotPairingList'
 import Text from '../../../components/Text'
@@ -148,15 +149,24 @@ const HotspotSetupBluetoothSuccess = () => {
         if (!minFirmware) return
         const firmwareDetails = await checkFirmwareCurrent(minFirmware)
         // also check v1.0.0 as min version for solana transition
-        const firmwareDetailsNew = await checkFirmwareCurrent('v1.0.0')
-        const isCurrent = firmwareDetails.current || firmwareDetailsNew.current
-
+        console.log(firmwareDetails)
+        console.log('calling a second time')
+        const lightCurrent = versionCompare(
+          firmwareDetails.deviceFirmwareVersion,
+          'v0.9.9',
+          '>=',
+        )
+        console.log(lightCurrent)
+        const isCurrent = firmwareDetails.current || lightCurrent
+        console.log(isCurrent)
         if (!isCurrent) {
+          console.log(isCurrent)
           navigation.navigate('FirmwareUpdateNeededScreen', firmwareDetails)
           return
         }
 
         // scan for wifi networks
+        console.log('going to call for wifi.')
         const networks = uniq((await readWifiNetworks(false)) || [])
         const connectedNetworks = uniq((await readWifiNetworks(true)) || [])
         const hotspotAddress = await getOnboardingAddress()
