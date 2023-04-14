@@ -49,7 +49,7 @@ const WifiItem = ({
   return (
     <TouchableOpacityBox
       onPress={onPress}
-      backgroundColor="white"
+      backgroundColor="surface"
       padding="m"
       marginBottom="xxxs"
       flexDirection="row"
