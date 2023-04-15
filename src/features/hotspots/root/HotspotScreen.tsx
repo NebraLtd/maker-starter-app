@@ -75,6 +75,15 @@ const HotspotScreen = () => {
     return [`${pieces[0]} ${pieces[1]}`, pieces[2]]
   }, [hotspot])
 
+  const updateWifi = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    navigation.navigate('HotspotSetup', {
+      screen: 'HotspotSetupScanningScreen',
+      params: { hotspotType: 'IOT', gatewayAction: 'setupWifi' },
+    })
+  }, [navigation])
+
   const assertHotspot = useCallback(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -180,6 +189,13 @@ const HotspotScreen = () => {
         {!details && <ActivityIndicator size="small" color="white" />}
       </Box>
 
+      <Button
+        onPress={updateWifi}
+        height={48}
+        marginTop="l"
+        mode="contained"
+        title={t('hotspots.empty.hotspots.updateWifi')}
+      />
       <Button
         onPress={assertHotspot}
         height={48}
