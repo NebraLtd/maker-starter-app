@@ -131,6 +131,11 @@ const HotspotSetupPickWifiScreen = () => {
       navigation.replace('OwnedHotspotErrorScreen')
     } else if (hotspot && hotspot.owner !== address) {
       navigation.replace('NotHotspotOwnerErrorScreen')
+    } else if (addGatewayTxn.length < 20) {
+      // moving to owned as this was a wifi update action
+      // 20 is the number that ble parsing uses to see if something
+      // is a valid transaction or not.
+      navigation.replace('OwnedHotspotErrorScreen')
     } else {
       navigation.replace('HotspotSetupLocationInfoScreen', {
         hotspotAddress,

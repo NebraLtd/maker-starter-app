@@ -188,14 +188,6 @@ const HotspotScreen = () => {
         )}
         {!details && <ActivityIndicator size="small" color="white" />}
       </Box>
-
-      <Button
-        onPress={updateWifi}
-        height={48}
-        marginTop="l"
-        mode="contained"
-        title={t('hotspots.empty.hotspots.updateWifi')}
-      />
       <Button
         onPress={assertHotspot}
         height={48}
@@ -209,6 +201,13 @@ const HotspotScreen = () => {
         marginTop="l"
         mode="contained"
         title={t('hotspots.empty.hotspots.transfer')}
+      />
+      <Button
+        onPress={updateWifi}
+        height={48}
+        marginTop="l"
+        mode="contained"
+        title={t('hotspots.empty.hotspots.updateWifi')}
       />
       <Button
         onPress={viewExplorer}
