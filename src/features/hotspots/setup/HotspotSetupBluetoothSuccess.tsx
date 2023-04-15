@@ -196,6 +196,17 @@ const HotspotSetupBluetoothSuccess = () => {
             hotspotType,
             addGatewayTxn,
           })
+        } else if (gatewayAction === 'setupWifi') {
+          // TODO:: we are currently differentiating wifi setup
+          // and addgateway action based on wether addGateway is empty
+          // or not. We should have a separate parameter for it.
+          navigation.replace('HotspotSetupPickWifiScreen', {
+            networks,
+            connectedNetworks,
+            hotspotAddress,
+            hotspotType,
+            addGatewayTxn: '',
+          })
         } else {
           navigation.replace('HotspotSetupPickLocationScreen', {
             hotspotAddress,

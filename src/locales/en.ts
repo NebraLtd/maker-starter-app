@@ -376,6 +376,7 @@ export default {
         add: 'Add Hotspot',
         assertLocation: 'Assert Location',
         transfer: 'Transfer Hotspot',
+        updateWifi: 'Update WiFi',
       },
 
       title: 'Nebra Hotspot Setup',
