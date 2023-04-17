@@ -35,7 +35,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
       https://developer.android.com/guide/topics/connectivity/bluetooth-le.html#permissions -->
-  <uses-feature android:name="android.hardware.bluetooth" android:required="true"/>
+  <!-- <uses-feature android:name="android.hardware.bluetooth" android:required="true"/> -->
   <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
   <application
     android:name=".MainApplication"
