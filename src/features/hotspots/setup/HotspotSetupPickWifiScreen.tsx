@@ -133,7 +133,7 @@ const HotspotSetupPickWifiScreen = () => {
       navigation.replace('NotHotspotOwnerErrorScreen')
     } else if (addGatewayTxn.length < 20) {
       // moving to owned as this was a wifi update action
-      // 20 is the number that ble parsing uses to see if something
+      // 20 is the number that helium ble parsing uses to see if something
       // is a valid transaction or not.
       navigation.replace('OwnedHotspotErrorScreen')
     } else {
