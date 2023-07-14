@@ -1,5 +1,10 @@
 import { useSelector } from 'react-redux'
-import { Asset, HotspotMeta, useSolana } from '@helium/react-native-sdk'
+import {
+  Asset,
+  HotspotMeta,
+  useSolana,
+  useOnboarding,
+} from '@helium/react-native-sdk'
 import { Hotspot } from '@helium/http'
 import { useAppDispatch } from '../store/store'
 import { getAddress } from './secureAccount'
@@ -7,6 +12,7 @@ import {
   HotspotsSliceState,
   updateHotspots,
   updateHotspotDetail,
+  updateOnboardingCache,
   dropHotspotCache,
 } from '../store/hotspots/hotspotsSlice'
 import { RootState } from '../store/rootReducer'
@@ -16,6 +22,8 @@ function useSolanaCache() {
     (state: RootState) => state.hotspots,
   )
   const { getHotspotDetails, getHotspots } = useSolana()
+  const { getOnboardingRecord } = useOnboarding()
+
   const dispatch = useAppDispatch()
 
   const getHotspotAddress = (item: Asset | Hotspot): string => {
@@ -44,7 +52,10 @@ function useSolanaCache() {
       // makerName: Config.MAKER_NAME,
     })
 
-    if (!nextHotspots) return
+    if (!nextHotspots) {
+      console.log('no hotspots with this account')
+      return
+    }
 
     console.log('hotspots: cache miss, doing entry in cache')
     dispatch(updateHotspots(nextHotspots))
@@ -60,7 +71,7 @@ function useSolanaCache() {
     }
     const hotspotMeta = await getHotspotDetails(params)
     if (hotspotMeta) {
-      console.log('cache miss')
+      console.log('hotspot details: cache miss')
       dispatch(
         updateHotspotDetail({
           address: params.address,
@@ -69,6 +80,26 @@ function useSolanaCache() {
       )
     }
     return hotspotMeta
+  }
+
+  const getCachedOnboardingRecord = async (hotspotAddress: string) => {
+    // console.log("check cache for : ", hotspotAddress)
+    if (hotspots.onboardingCache.has(hotspotAddress)) {
+      return hotspots.onboardingCache.get(hotspotAddress)
+    }
+    console.log('onboardingRecord: cache miss for: ', hotspotAddress)
+    const record = await getOnboardingRecord(hotspotAddress)
+    // console.log("record: ", record)
+    if (record) {
+      console.log('onboardingRecord: update cache')
+      dispatch(
+        updateOnboardingCache({
+          address: hotspotAddress,
+          onboardingRecord: record,
+        }),
+      )
+    }
+    return record
   }
 
   const invalidateHotspotCache = async () => {
@@ -80,6 +111,7 @@ function useSolanaCache() {
     getHotspotAddress,
     getCachedHotspots,
     getCachedHotspotDetails,
+    getCachedOnboardingRecord,
     invalidateHotspotCache,
   }
 }

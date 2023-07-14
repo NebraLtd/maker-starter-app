@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { ActivityIndicator, ScrollView } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
-import { useOnboarding, AssertData } from '@helium/react-native-sdk'
+import { AssertData, useOnboarding } from '@helium/react-native-sdk'
 import { useAsync } from 'react-async-hook'
 import { first, last } from 'lodash'
 import animalName from 'angry-purple-tiger'
@@ -33,12 +33,14 @@ const HotspotSetupConfirmLocationScreen = () => {
   const [isFree, setIsFree] = useState<boolean>()
   const [solanaTransactions, setSolanaTransactions] = useState<string[]>()
   const { params } = useRoute<Route>()
-  const { getAssertData, getOnboardingRecord, getOnboardTransactions } =
-    useOnboarding()
-  const { getCachedHotspotDetails: getHotspotDetails } = useSolanaCache()
+  const { getAssertData, getOnboardTransactions } = useOnboarding()
+  const {
+    getCachedHotspotDetails: getHotspotDetails,
+    getCachedOnboardingRecord: getOnboardingRecord,
+  } = useSolanaCache()
 
   useAsync(async () => {
-    console.log('lets get onboarding rcord.')
+    // console.log('lets get onboarding record.')
     const { elevation, gain, coords, updateAntennaOnly } = params
 
     const userAddress = await getAddress()
@@ -47,13 +49,19 @@ const HotspotSetupConfirmLocationScreen = () => {
     const lng = first(coords)
 
     if (!userAddress) return
-    console.log('user address: ', userAddress)
+    // console.log('user address: ', userAddress)
     if (!updateAntennaOnly && (!lat || !lng)) return
-    console.log('antenna only update or location assert')
+    // console.log('antenna only update or location assert')
 
     try {
       const onboardingRecord = await getOnboardingRecord(params.hotspotAddress)
-      const hotspotTypes = getHotspotTypes()
+
+      /*
+      NOTE: Beware the env should contain both 5G and lora maker address for this to work
+      */
+      const hotspotTypes = getHotspotTypes({
+        hotspotMakerAddress: onboardingRecord?.maker.address || '',
+      })
 
       const locationParams = {
         decimalGain: gain,
@@ -63,7 +71,7 @@ const HotspotSetupConfirmLocationScreen = () => {
       }
       if (params.addGatewayTxn) {
         setIsFree(true)
-        console.log('onboarding is free')
+        // console.log('onboarding is free')
       } else {
         const hotspotDetails = await getHotspotDetails({
           address: params.hotspotAddress,
@@ -72,7 +80,7 @@ const HotspotSetupConfirmLocationScreen = () => {
         const hotspotExists = !!hotspotDetails
 
         if (hotspotExists) {
-          console.log('exising hotspot, get assert data')
+          // console.log('exising hotspot, get assert data')
           if (updateAntennaOnly) {
             locationParams.lat = hotspotDetails?.lat
             locationParams.lng = hotspotDetails?.lng
@@ -86,7 +94,7 @@ const HotspotSetupConfirmLocationScreen = () => {
             hotspotTypes,
           })
 
-          console.log('assert: ', assert)
+          // console.log('assert: ', assert)
 
           setAssertData(assert)
           setSolanaTransactions(assert.solanaTransactions)
@@ -254,7 +262,7 @@ const HotspotSetupConfirmLocationScreen = () => {
                 <Box>
                   <Text
                     variant="body1"
-                    color={disabled ? 'error' : 'secondaryText'}
+                    color={disabled ? 'error' : 'primaryText'}
                   >
                     {assertData?.balances?.hnt?.toString(4)}
                   </Text>

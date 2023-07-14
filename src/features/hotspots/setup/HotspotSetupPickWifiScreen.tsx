@@ -82,7 +82,10 @@ const HotspotSetupPickWifiScreen = () => {
     },
   } = useRoute<Route>()
   const { readWifiNetworks } = useHotspotBle()
-  const { getCachedHotspotDetails: getHotspotDetails } = useSolanaCache()
+  const {
+    getCachedHotspotDetails: getHotspotDetails,
+    getCachedOnboardingRecord: getOnboardingRecord,
+  } = useSolanaCache()
 
   const [wifiNetworks, setWifiNetworks] = useState(networks)
   const [connectedWifiNetworks, setConnectedWifiNetworks] =
@@ -102,9 +105,14 @@ const HotspotSetupPickWifiScreen = () => {
     if (!token || !address) return
 
     const solAddress = Account.heliumAddressToSolAddress(address || '')
+
+    const onboardingRecord = await getOnboardingRecord(hotspotAddress)
+    const hotspotTypes = getHotspotTypes({
+      hotspotMakerAddress: onboardingRecord?.maker.address || '',
+    })
     const hotspot = await getHotspotDetails({
       address: hotspotAddress,
-      type: first(getHotspotTypes()) || 'IOT',
+      type: first(hotspotTypes) || 'IOT',
     })
 
     if (hotspot?.owner) {
@@ -121,6 +129,7 @@ const HotspotSetupPickWifiScreen = () => {
       })
     }
   }, [
+    getOnboardingRecord,
     hotspotAddress,
     getHotspotDetails,
     navigation,

@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next'
 import Fingerprint from '@assets/images/fingerprint.svg'
 import { ActivityIndicator } from 'react-native'
 import Toast from 'react-native-simple-toast'
-import { useOnboarding, Account } from '@helium/react-native-sdk'
+import { Account } from '@helium/react-native-sdk'
 import { first } from 'lodash'
+import { AddGatewayV1 } from '@helium/transactions'
 import BackScreen from '../../../components/BackScreen'
 import Box from '../../../components/Box'
 import Text from '../../../components/Text'
@@ -38,8 +39,10 @@ const HotspotSetupExternalConfirmScreen = () => {
   const [macAddress, setMacAddress] = useState('')
   const [ownerAddress, setOwnerAddress] = useState('')
   const rootNav = useNavigation<RootNavigationProp>()
-  const { getOnboardingRecord } = useOnboarding()
-  const { getCachedHotspotDetails: getHotspotDetails } = useSolanaCache()
+  const {
+    getCachedHotspotDetails: getHotspotDetails,
+    getCachedOnboardingRecord: getOnboardingRecord,
+  } = useSolanaCache()
 
   const handleClose = useCallback(() => rootNav.navigate('MainTabs'), [rootNav])
 
@@ -48,11 +51,15 @@ const HotspotSetupExternalConfirmScreen = () => {
   }, [])
 
   useEffect(() => {
-    if (!publicKey) return
+    if (!publicKey) {
+      // console.log('public key: ', publicKey)
+      return
+    }
 
     const getRecord = async () => {
       let onboardingRecord: OnboardingRecord | null = null
       try {
+        // console.log('getting onboarding record for : ', publicKey)
         onboardingRecord = await getOnboardingRecord(publicKey)
       } catch (e) {
         if (e.message) {
@@ -82,9 +89,13 @@ const HotspotSetupExternalConfirmScreen = () => {
 
   const navNext = useCallback(async () => {
     const solAddress = Account.heliumAddressToSolAddress(address || '')
+    const onboardingRecord = await getOnboardingRecord(publicKey)
+    const hotspotTypes = getHotspotTypes({
+      hotspotMakerAddress: onboardingRecord?.maker.address || '',
+    })
     const hotspot = await getHotspotDetails({
       address: publicKey,
-      type: first(getHotspotTypes()) || 'IOT',
+      type: first(hotspotTypes) || 'IOT',
     })
 
     if (hotspot?.owner) {
@@ -102,6 +113,7 @@ const HotspotSetupExternalConfirmScreen = () => {
     }
   }, [
     address,
+    getOnboardingRecord,
     getHotspotDetails,
     navigation,
     params.addGatewayTxn,

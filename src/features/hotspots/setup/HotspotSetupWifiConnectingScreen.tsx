@@ -37,7 +37,10 @@ const HotspotSetupWifiConnectingScreen = () => {
   } = useRoute<Route>()
 
   const { readWifiNetworks, setWifi, removeConfiguredWifi } = useHotspotBle()
-  const { getCachedHotspotDetails: getHotspotDetails } = useSolanaCache()
+  const {
+    getCachedHotspotDetails: getHotspotDetails,
+    getCachedOnboardingRecord: getOnboardingRecord,
+  } = useSolanaCache()
 
   const { showOKAlert } = useAlert()
 
@@ -63,10 +66,17 @@ const HotspotSetupWifiConnectingScreen = () => {
     if (!address) return
 
     const solAddress = Account.heliumAddressToSolAddress(address || '')
+
+    const onboardingRecord = await getOnboardingRecord(hotspotAddress)
+    const hotspotTypes = getHotspotTypes({
+      hotspotMakerAddress: onboardingRecord?.maker.address || '',
+    })
+
     const hotspot = await getHotspotDetails({
       address: hotspotAddress,
-      type: first(getHotspotTypes()) || 'IOT',
+      type: first(hotspotTypes) || 'IOT',
     })
+
     if (hotspot?.owner) {
       if (hotspot.owner === solAddress) {
         navigation.replace('OwnedHotspotErrorScreen')
@@ -83,6 +93,7 @@ const HotspotSetupWifiConnectingScreen = () => {
   }, [
     addGatewayTxn,
     getHotspotDetails,
+    getOnboardingRecord,
     hotspotAddress,
     hotspotType,
     navigation,
